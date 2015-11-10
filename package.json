@@ -1,0 +1,15 @@
+{
+  "name": "language-tritium",
+  "version": "1.0.0",
+  "description": "Tritium syntax file for Atom converted from TextMate",
+  "author": "jpatzer",
+  "keywords": [
+  ],
+  "repository": "https://github.com/atom/language-tritium",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "dependencies": {
+  }
+}

@@ -1,0 +1,248 @@
+comment: "Tritium script syntax"
+fileTypes: [
+  "ts"
+]
+foldingStartMarker: "/\\*\\*|\\{\\s*$"
+foldingStopMarker: "\\*\\*/|^\\s*\\}"
+name: "Tritium"
+patterns: [
+  {
+    match: "\\b(log)\\b"
+    name: "entity.control.debug"
+  }
+  {
+    comment: "match the dollar sign or var"
+    match: "\\$\\w+"
+    name: "variable.control.variable"
+  }
+  {
+    match: "(?:^[ \\t]+)?(#|\\/\\/).*$\\n?"
+    name: "comment.line.ts"
+  }
+  {
+    begin: "/\\*\\*(?!/)"
+    captures:
+      "0":
+        name: "punctuation.definition.comment.ts"
+    end: "\\*/"
+    name: "comment.block.documentation.ts"
+  }
+  {
+    begin: "/\\*"
+    captures:
+      "0":
+        name: "punctuation.definition.comment.ts"
+    end: "\\*/"
+    name: "comment.block.ts"
+  }
+  {
+    captures:
+      "1":
+        name: "punctuation.definition.comment.ts"
+    match: "(//).*$\\n?"
+    name: "comment.line.double-slash.ts"
+  }
+  {
+    match: "\\$"
+    name: "variable.language.dollar"
+  }
+  {
+    begin: "\""
+    end: "\""
+    name: "string.quoted.double"
+    patterns: [
+      {
+        match: "\\\\."
+        name: "constant.character.escape"
+      }
+    ]
+  }
+  {
+    begin: "'"
+    end: "'"
+    name: "string.quoted.single"
+    patterns: [
+      {
+        match: "\\\\."
+        name: "constant.character.escape"
+      }
+    ]
+  }
+  {
+    match: "[_a-zA-Z\\-](\\w|\\-)*:"
+    name: "keyword.control.keywords"
+  }
+  {
+    match: "@import\\s.*"
+    name: "entity.control.import"
+  }
+  {
+    match: "[1-9]"
+    name: "constant.control.numbers"
+  }
+  {
+    begin: '''
+      (?x)
+      			   (?:
+      			     ^                      # beginning of line
+      			   | (?<=                   # or look-behind on:
+      			       [=>~(?:\\[,|&;]
+      			     | [\\s;]if\\s			# keywords
+      			     | [\\s;]elsif\\s
+      			     | [\\s;]while\\s
+      			     | [\\s;]unless\\s
+      			     | [\\s;]when\\s
+      			     | [\\s;]assert_match\\s
+      			     | [\\s;]or\\s			# boolean opperators
+      			     | [\\s;]and\\s
+      			     | [\\s;]not\\s
+      			     | [\\s.]index\\s			# methods
+      			     | [\\s.]scan\\s
+      			     | [\\s.]sub\\s
+      			     | [\\s.]sub!\\s
+      			     | [\\s.]gsub\\s
+      			     | [\\s.]gsub!\\s
+      			     | [\\s.]match\\s
+      			     )
+      			   | (?<=                  # or a look-behind with line anchor:
+      			        ^when\\s            # duplication necessary due to limits of regex
+      			      | ^if\\s
+      			      | ^elsif\\s
+      			      | ^while\\s
+      			      | ^unless\\s
+      			      )
+      			   )
+      			   \\s*((/))(?![*+{}?])
+      			
+    '''
+    captures:
+      "1":
+        name: "string.regexp.classic.ruby"
+      "2":
+        name: "punctuation.definition.string.ruby"
+    comment: '''
+      regular expressions (normal)
+      			we only start a regexp if the character before it (excluding whitespace)
+      			is what we think is before a regexp
+      			
+    '''
+    contentName: "string.regexp.classic.ruby"
+    end: "((/[eimnosux]*))"
+    patterns: [
+      {
+        include: "#regex_sub"
+      }
+      {
+        match: "\\\\."
+        name: "constant.character.escape.tritium"
+      }
+    ]
+  }
+  {
+    begin: "%r\\{"
+    beginCaptures:
+      "0":
+        name: "punctuation.definition.string.begin.ruby"
+    comment: "regular expressions (literal)"
+    end: "\\}[eimnosux]*"
+    endCaptures:
+      "0":
+        name: "punctuation.definition.string.end.ruby"
+    name: "string.regexp.mod-r.ruby"
+    patterns: [
+      {
+        include: "#regex_sub"
+      }
+      {
+        include: "#nest_curly_r"
+      }
+    ]
+  }
+  {
+    begin: "%r\\["
+    beginCaptures:
+      "0":
+        name: "punctuation.definition.string.begin.ruby"
+    comment: "regular expressions (literal)"
+    end: "\\][eimnosux]*"
+    endCaptures:
+      "0":
+        name: "punctuation.definition.string.end.ruby"
+    name: "string.regexp.mod-r.ruby"
+    patterns: [
+      {
+        include: "#regex_sub"
+      }
+      {
+        include: "#nest_brackets_r"
+      }
+    ]
+  }
+  {
+    begin: "%r\\("
+    beginCaptures:
+      "0":
+        name: "punctuation.definition.string.begin.ruby"
+    comment: "regular expressions (literal)"
+    end: "\\)[eimnosux]*"
+    endCaptures:
+      "0":
+        name: "punctuation.definition.string.end.ruby"
+    name: "string.regexp.mod-r.ruby"
+    patterns: [
+      {
+        include: "#regex_sub"
+      }
+      {
+        include: "#nest_parens_r"
+      }
+    ]
+  }
+  {
+    begin: "%r\\<"
+    beginCaptures:
+      "0":
+        name: "punctuation.definition.string.begin.ruby"
+    comment: "regular expressions (literal)"
+    end: "\\>[eimnosux]*"
+    endCaptures:
+      "0":
+        name: "punctuation.definition.string.end.ruby"
+    name: "string.regexp.mod-r.ruby"
+    patterns: [
+      {
+        include: "#regex_sub"
+      }
+      {
+        include: "#nest_ltgt_r"
+      }
+    ]
+  }
+  {
+    begin: "%r([^\\w])"
+    beginCaptures:
+      "0":
+        name: "punctuation.definition.string.begin.ruby"
+    comment: "regular expressions (literal)"
+    end: "\\1[eimnosux]*"
+    endCaptures:
+      "0":
+        name: "punctuation.definition.string.end.ruby"
+    name: "string.regexp.mod-r.ruby"
+    patterns: [
+      {
+        include: "#regex_sub"
+      }
+    ]
+  }
+  {
+    begin: "^=begin"
+    captures:
+      "0":
+        name: "punctuation.definition.comment.ruby"
+    comment: "multiline comments"
+    end: "^=end"
+    name: "comment.block.documentation.ruby"
+  }
+]
+scopeName: "source.ts"

@@ -1,0 +1,249 @@
+".source.ts":
+  "$(.) {}":
+    prefix: "$"
+    body: '''
+      $("./${1:xpath}") {
+      	$0
+      }
+    '''
+  "$(./class) {}":
+    prefix: "$"
+    body: '''
+      $("./${1:xpath}[@class='${2:}']") {
+      	$0
+      }
+    '''
+  "$(./contains) {}":
+    prefix: "$"
+    body: '''
+      $("./${1:xpath}[contains(@${2:class}, '${3:}')]") {
+      	$0
+      }
+    '''
+  "$(./contains/concat) {}":
+    prefix: "$"
+    body: '''
+      $("./${1:xpath}[contains(concat(' ', @${2:class}, ' '), ' ${3:} ')]") {
+      	$0
+      }
+    '''
+  "$(./id) {}":
+    prefix: "$"
+    body: '''
+      $("./${1:xpath}[@id='${2:}']") {
+      	$0
+      }
+    '''
+  "@items":
+    prefix: "@"
+    body: "@${1/(T)|.*/(?1:)/}${1:i}${1/(i)|(c)|.*/(?1:d)(?2:lass)/}='$2'"
+  ac_hide:
+    prefix: "ach"
+    body: "add_class(\"mw_hide\")"
+  ac_testing:
+    prefix: "act"
+    body: "add_class(\"mw_testing\")"
+  add_class:
+    prefix: "ac"
+    body: "add_class(\"${1:className}\")"
+  append:
+    prefix: "ap"
+    body: "append(\"${1:text}\")"
+  asset:
+    prefix: "as"
+    body: "asset(\"${1:asset}\", \"${2:assetType}\")"
+  attribute:
+    prefix: "at"
+    body: "attribute(\"${1:name}\", \"${2:value}\")"
+  attribute_rm:
+    prefix: "rm"
+    body: "remove(\"@${1:attribute}\")"
+  attribute_var:
+    prefix: "at"
+    body: "attribute(\"${1:name}\", $${2:var})"
+  attributes:
+    prefix: "ats"
+    body: "attributes(${1:name}: \"${2:value}\", ${3:name}: \"${4:value}\")"
+  cdata:
+    prefix: "cda"
+    body: "cdata(\"${1:hacky_stuff}\")"
+  copy_here:
+    prefix: "ch"
+    body: "copy_here(\"${1:selector}\", \"${2:position}\")"
+  copy_to:
+    prefix: "ct"
+    body: "copy_to(\"${1:selector}\", \"${2:position}\")"
+  export:
+    prefix: "ex"
+    body: "export(\"${1:key_name}\", \"${2:value}\")\t"
+  fetch:
+    prefix: "fe"
+    body: "fetch(\"${1:selector}\")"
+  html:
+    prefix: "ht"
+    body: '''
+      html() {
+      	$0
+      }
+    '''
+  html_fragment:
+    prefix: "htf"
+    body: '''
+      html_fragment() {
+      	$0
+      }
+    '''
+  import:
+    prefix: "imp"
+    body: "@import \"${1:item}\""
+  inject_after:
+    prefix: "ija"
+    body: "inject_after(\"${1:html}\")"
+  inject_before:
+    prefix: "ijbe"
+    body: "inject_before(\"${1:html}\")"
+  inject_bottom:
+    prefix: "ijbo"
+    body: "inject_bottom(\"${1:html}\")"
+  inject_top:
+    prefix: "ijt"
+    body: "inject_top(\"${1:html}\")"
+  inner:
+    prefix: "in"
+    body: "inner(\"${1:inner_html}\")"
+  inner_wrap:
+    prefix: "iw"
+    body: "inner_wrap(\"${1:tagName}\", ${2:attribute}: \"${3:value}\")"
+  insert:
+    prefix: "is"
+    body: "insert(\"${1:tagName}\")"
+  "insert w/ att after":
+    prefix: "isa"
+    body: "insert_after(\"${1:tagName}\", ${2:attribute}: \"${3:value}\")"
+  "insert w/ att before":
+    prefix: "isbe"
+    body: "insert_before(\"${1:tagName}\", ${2:attribute}: \"${3:value}\")"
+  "insert w/ att bottom":
+    prefix: "isbo"
+    body: "insert_bottom(\"${1:tagName}\", ${2:attribute}: \"${3:value}\")"
+  "insert w/ att top":
+    prefix: "ist"
+    body: "insert_top(\"${1:tagName}\", ${2:attribute}: \"${3:value}\")"
+  inject:
+    prefix: "ij"
+    body: "inject(\"${1:html}\")"
+  insert_after:
+    prefix: "isa"
+    body: "insert_after(\"${1:tagName}\")"
+  insert_before:
+    prefix: "isbe"
+    body: "insert_before(\"${1:tagName}\")"
+  insert_bottom:
+    prefix: "isbo"
+    body: "insert_bottom(\"${1:tagName}\")"
+  insert_javascript:
+    prefix: "isj"
+    body: "insert_javascript(\"${1:js}\")"
+  "insert w/ att":
+    prefix: "is"
+    body: "insert(\"${1:tagName}\", ${2:attribute}: \"${3:value}\")"
+  insert_top:
+    prefix: "ist"
+    body: "insert_top(\"${1:tagName}\")"
+  "log !!!!":
+    prefix: "lo"
+    body: "log(\"!!!! ${1:msg}\")"
+  "log -->":
+    prefix: "lo"
+    body: "log(\"--> ${1:msg}\")"
+  "log dump":
+    prefix: "lo"
+    body: "log(dump())"
+  "log var":
+    prefix: "lo"
+    body: "log(concat(\"=>  $${1:var}:  \", $${1:var}))"
+  log:
+    prefix: "lo"
+    body: "log(\"${1:msg}\")"
+  match:
+    prefix: "ma"
+    body: '''
+      match($${1:path}) {
+      	with(/${2:}/) {
+      		$0
+      	}
+      }
+    '''
+  move_here:
+    prefix: "mh"
+    body: "move_here(\"${1:selector}\", \"${2:position}\")"
+  move_to:
+    prefix: "mt"
+    body: "move_to(\"${1:selector}\", \"${2:position}\")"
+  name:
+    prefix: "na"
+    body: "name(\"${1:tagName}\")"
+  prepend:
+    prefix: "pr"
+    body: "prepend(\"${1:text}\")"
+  read:
+    prefix: "re"
+    body: "read(\"${1:myfile}\")"
+  remove:
+    prefix: "rm"
+    body: "remove(\"${1}\")$0"
+  replace:
+    prefix: "rp"
+    body: "replace(/${1:regex}/, \"${2:replacementString}\")"
+  rewrite:
+    prefix: "rw"
+    body: "rewrite(\"${1:key}\")"
+  set:
+    prefix: "se"
+    body: "set(\"${1:value}\")"
+  text:
+    prefix: "te"
+    body: "text(\"${1:contents}\")"
+  "title comment":
+    prefix: "#"
+    body: '''
+      ## `date +%Y-%m-%d` $USER
+       # ${1:Page Title}
+       # REF_URL: ${2:url}
+       ####################
+      
+      $0
+    '''
+  value:
+    prefix: "va"
+    body: "value(\"${1:value}\")$0"
+  var:
+    prefix: "var"
+    body: "var(\"${1:name}\",\"${2:value}\")$0"
+  with:
+    prefix: "wi"
+    body: '''
+      with(/$1/) {
+      	$0
+      }
+    '''
+  wrap:
+    prefix: "wr"
+    body: "wrap(\"${1:tagName}\", ${2:attribute}: \"${3:value}\")"
+  wrap_text_children:
+    prefix: "wtc"
+    body: "wrap_text_children(\"${1:span}\", ${2:attribute}: \"${3:value}\")"
+  xhtml:
+    prefix: "xh"
+    body: '''
+      xhtml() {
+      	$0
+      }
+    '''
+  xml:
+    prefix: "xm"
+    body: '''
+      xml() {
+      	$0
+      }
+    '''
